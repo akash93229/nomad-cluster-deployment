@@ -1,0 +1,25 @@
+
+nomad Server Configuration
+server {
+  enabled = true
+  bootstrap_expect = 1
+}
+
+bind_addr = "0.0.0.0"  # bind to all interfaces
+
+data_dir = "/opt/nomad/data"
+log_level = "DEBUG"
+
+advertise {
+  http = "http://3.108.66.209:4648"  # Replace with your actual server IP
+}
+
+# Nomad Client Configuration
+client {
+  enabled = true
+  servers = ["3.108.66.209:4647"]  # Replace with your actual server IP
+  options = {
+    "driver.raw_exec.enable" = "1"
+  }
+  network_interface = "eth0"  # or your actual network interface
+}
