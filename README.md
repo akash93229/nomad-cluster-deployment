@@ -207,6 +207,73 @@ Verify:
 nomad job status hello-world
 nomad alloc status <alloc-id>
 
+Architecture Diagram Description
+                       +--------------------+
+                       |    Terraform CLI    |
+                       | (Provision Infra)   |
+                       +----------+---------+
+                                  |
+                                  | Provisions AWS Infrastructure
+                                  |
+                      +-----------v------------+
+                      |       AWS Cloud        |
+                      |                        |
+                      |  +------------------+  |
+                      |  |  EC2 Instances   |  |
+                      |  |  (Nomad Servers) |  |
+                      |  +--------+---------+  |
+                      |           |            |
+                      |  +--------v---------+  |
+                      |  |  EC2 Instances   |  |
+                      |  |  (Nomad Clients) |  |
+                      |  +--------+---------+  |
+                      |           |            |
+                      |  +--------v---------+  |
+                      |  |  Applications    |  |
+                      |  |  (hello-world,   |  |
+                      |  |   python-server) |  |
+                      |  +------------------+  |
+                      +------------------------+
+
+Nomad Cluster components:
+
+- **Nomad Servers**: Responsible for cluster management, scheduling, and leader election.
+- **Nomad Clients**: Run workloads and applications, execute tasks as per jobs.
+- **Applications/Jobs**: Defined in `.nomad` files, like `hello-world` and `python-server`.
+- **Terraform**: Automates provisioning of EC2 instances and networking resources.
+- **Nomad UI**: Accessed via EC2 public IP and port 4646, provides job and cluster status.
+
+---
+
+### Visual Diagram (ASCII Art)
+
+
+
+[Terraform] ---> [AWS Cloud]
+|
++-------+-------+
+| |
+[Nomad Servers] [Nomad Clients]
+| |
++-----+-----+ +---+---+
+| | | |
+[Nomad UI] [Jobs: hello-world, python-server]
+
+
+---
+
+### Explanation
+
+- **Terraform CLI** runs on your local machine or CI system to provision the AWS infrastructure needed for the cluster.
+- AWS EC2 instances are split into **Nomad Servers** and **Nomad Clients**.
+- **Nomad Servers** handle cluster state, leader election, and job scheduling.
+- **Nomad Clients** run the actual jobs and applications.
+- Nomad UI runs on the Nomad Server and is accessible via the public IP for monitoring and job management.
+- Jobs like `hello-world` and `python-server` are deployed to clients through the Nomad cluster.
+
+---
+
+If you want, I can create a simple diagram image (PNG or SVG) based on this and you can include it in your repo too! Would you like that?
 
 Open Browser: http://<PUBLIC_IP>:8080 (or the mapped port shown by nomad alloc status).
 
