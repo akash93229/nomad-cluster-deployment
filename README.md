@@ -405,6 +405,30 @@ nomad node status -verbose
 # 5. Debug failing alloc:
 nomad alloc status <alloc-id>
 nomad alloc logs <alloc-id> <task-name>
+# Navigate to the folder where you want the repo
+cd "C:\Users\<ClientName>\Desktop\"
+
+# Clone the main repo along with all submodules
+git clone --recurse-submodules https://github.com/akash93229/nomad-cluster-deployment.git
+
+# Navigate into the cloned repo
+cd nomad-cluster-deployment
+
+# Ensure the main branch is checked out
+git checkout main
+
+# Pull the latest changes from main
+git pull origin main
+
+# Initialize and update submodules recursively
+git submodule update --init --recursive
+
+# Update submodules to track the remote branch
+git submodule update --remote
+
+# Optional: verify the submodule status
+git submodule status
+
 
 Contact / Notes
 
