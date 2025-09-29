@@ -1,3 +1,0 @@
-[submodule "nomad-cluster-deployment"]
-	path = nomad-cluster-deployment
-	url = https://github.com/akash93229/nomad-cluster-deployment.git
